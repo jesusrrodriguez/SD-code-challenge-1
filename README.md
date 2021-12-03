@@ -1,5 +1,5 @@
 # Spring Boot challenge
-Esto es un ejercicio sencillo que te permitirá demostrar tu conocimiento de Spring Boot y microservicios.
+Esto es un ejercicio sencillo que te permitirá demostrar tu conocimiento de Spring Boot y arquitecturas de microservicios.
 
 ## Herramientas
 
