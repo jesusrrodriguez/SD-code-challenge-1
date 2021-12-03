@@ -40,4 +40,4 @@ La solución contiene un API REST que dispone de un endpoint que devuelve el res
 Implementación de patrones de diseño de microservicios
 
 ### Entrega
-La entrega sera mediante Pull Request a este repositorio.
+Crea un fork de este proyecto. La entrega sera mediante Pull Request a este repositorio.
