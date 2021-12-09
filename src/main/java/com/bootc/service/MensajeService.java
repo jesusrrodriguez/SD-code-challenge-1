@@ -1,8 +1,7 @@
 package com.bootc.service;
 
+import org.apache.commons.lang3.RegExUtils;
+
 public interface MensajeService {
-	public boolean tieneSignoPuntuacion(String str, int index);
 	public String invertirString(String string);
-	public String getSignosIzquierdaString(String str);
-	public String getSignosDerechaString(String str);
 }

@@ -17,47 +17,42 @@ public class MensajeServiceImpl implements MensajeService{
 	private String todosLosSignos = "!¡¿?.";
 	private String[] todosLosSignosArray = {"!", "¡", "¿", "?", "."};
 	
-	private Map<String, String> map;
-	private List<Map<String, String>> signos;
-	
-	@Override
-	public boolean tieneSignoPuntuacion(String str, int index) {
-		boolean ok = false;
+	private Map<String, String> tieneSignoPuntuacion(String str, int index) {
+		
+		Map<String, String> map = null;
 		
 		if(StringUtils.containsAny(str, todosLosSignos)) {
-			ok = true;
 			map = new HashMap<String, String>();
 			
-			String izquierda = getSignosIzquierdaString(str);
-			String derecha = getSignosDerechaString(str);
-						
-			if(!izquierda.isBlank() || !izquierda.isEmpty()) {
-				map.put("signosIzq", izquierda);
-			}
-			if (!derecha.isBlank() || !derecha.isEmpty()) {
-				map.put("signosDer", derecha);
-			}
-			
-			while (signos.size() < index)
-			{
-			     signos.add(null);
-			}
-			signos.add(index, map);
+			map = addSignos(map, str);
 		}
 		
-		return ok;
+		return map;
 	}
 
-	@Override
-	public String getSignosIzquierdaString(String str) {
+	private Map<String, String> addSignos(Map<String, String> map, String str) {
+		
+		String izquierda = getSignosIzquierdaString(str);
+		String derecha = getSignosDerechaString(str);
+					
+		if(!izquierda.isBlank() || !izquierda.isEmpty()) {
+			map.put("signosIzq", izquierda);
+		}
+		if (!derecha.isBlank() || !derecha.isEmpty()) {
+			map.put("signosDer", derecha);
+		}
+		
+		return map;
+	}
+	
+	private String getSignosIzquierdaString(String str) {
 		str = RegExUtils.removePattern(str, "[\\?¿!¡\\.]+$");		
 		String signos = RegExUtils.removePattern(str, "[^\\?¿!¡\\.]+");
 		
 		return signos;
 	}
 	
-	@Override
-	public String getSignosDerechaString(String str) {
+	private String getSignosDerechaString(String str) {
 		str = RegExUtils.removePattern(str, "^[\\?¿!¡\\.]+");		
 		String signos = RegExUtils.removePattern(str, "[^\\?¿!¡\\.]+");
 		
@@ -67,14 +62,23 @@ public class MensajeServiceImpl implements MensajeService{
 	@Override
 	public String invertirString(String string) {
 		
-		signos = new ArrayList<>();
+		List<Map<String, String>> signos = new ArrayList<>();
+		Map<String, String> map;
 		
 		String[] stringArray = string.split(" ");
 		
 		for (int i = 0; i < stringArray.length; i++) {
 
-			if(tieneSignoPuntuacion(stringArray[i], i)) {
+			map = tieneSignoPuntuacion(stringArray[i], i);
+			
+			if(map != null) {
 				stringArray[i] = RegExUtils.removePattern(stringArray[i], "[\\?¿!¡\\.]*");
+				
+				while(signos.size() < i) {
+					signos.add(null);
+				}
+				
+				signos.add(i, map);
 			}
 		}
 		
