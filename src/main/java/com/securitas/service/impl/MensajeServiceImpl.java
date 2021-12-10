@@ -13,17 +13,11 @@ public class MensajeServiceImpl implements MensajeService{
 	public String inversorPalabras(String mensaje) throws Exception{
 		
 		
-	    String mensajeSinSignosPuntuacion ;
-		String arrayMensajeSinSignosPuntuacion[];
-		String mensajeInvertido;
-		String arrayMensaje[];
-		String arrayMensajeInvertidoSinSignosPuntuacion[];
-		
-		mensajeSinSignosPuntuacion = eliminarSignos(mensaje);
-		arrayMensajeSinSignosPuntuacion = convertirStringEnArray(mensajeSinSignosPuntuacion);
-		mensajeInvertido = invertirArray(arrayMensajeSinSignosPuntuacion);
-		arrayMensaje = convertirStringEnArray(mensaje);
-		arrayMensajeInvertidoSinSignosPuntuacion = convertirStringEnArray(mensajeInvertido);
+	    String mensajeSinSignosPuntuacion = eliminarSignos(mensaje);
+		String[] arrayMensajeSinSignosPuntuacion = convertirStringEnArray(mensajeSinSignosPuntuacion);
+		String mensajeInvertido = invertirArray(arrayMensajeSinSignosPuntuacion);
+		String[] arrayMensaje = convertirStringEnArray(mensaje);
+		String[] arrayMensajeInvertidoSinSignosPuntuacion =  convertirStringEnArray(mensajeInvertido);
 		arrayMensajeInvertidoSinSignosPuntuacion = concatenarSignos(arrayMensajeInvertidoSinSignosPuntuacion,arrayMensaje);
 		mensajeInvertido = convertirArrayEnString(arrayMensajeInvertidoSinSignosPuntuacion);
 		

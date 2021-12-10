@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
+
 @SpringBootTest
 class MensajeServiceImplTest {
 
@@ -18,8 +18,7 @@ private String mensaje, mensajeInvertido;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		mensaje= "";
-		mensajeInvertido= "";
+		
 	}
 
 	@AfterEach

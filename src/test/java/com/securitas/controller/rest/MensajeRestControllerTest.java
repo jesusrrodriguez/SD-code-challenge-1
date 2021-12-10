@@ -1,8 +1,6 @@
 package com.securitas.controller.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.when;
 
 
@@ -16,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import com.securitas.service.MensajeService;
-import com.securitas.service.impl.MensajeServiceImpl;
 
 @SpringBootTest
 class MensajeRestControllerTest {
@@ -32,15 +29,9 @@ class MensajeRestControllerTest {
 	@Autowired
 	MensajeService service;
 	
-
-	@Autowired
-	MensajeRestController controller;
-
-	
 	@BeforeEach
 	void setUp() throws Exception {
-		mensaje= "Hola Mundo¡";
-
+		
 	}
 
 	@AfterEach
@@ -67,7 +58,7 @@ class MensajeRestControllerTest {
 		//GIVEN:
 			mensaje = "";
 		//WHEN:
-			ResponseEntity<String> re = controller.inversor(mensaje);
+			ResponseEntity<String> re = restControllerMock.inversor(mensaje);
 		
 		//THEN:
 			assertThat (re.getStatusCodeValue() ).isEqualTo(406);
