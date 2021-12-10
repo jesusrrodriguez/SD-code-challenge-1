@@ -21,30 +21,29 @@ public class ControllerRest {
 	@GetMapping
 	public ResponseEntity<String> invertirMensaje(@RequestParam("mensaje") String mensaje) {
 		HttpHeaders headers = new HttpHeaders();
+		HttpStatus status;
+		String body = null;
+		
 		String mensajeInvertido = "";
 		try {
 			if (mensaje.isEmpty() || mensaje.isBlank()) {
 				headers.set("Message", "El mensaje no debe estar vacío");
+				status = HttpStatus.NOT_ACCEPTABLE;
 				
-				return ResponseEntity
-						.status(HttpStatus.NOT_ACCEPTABLE)
-						.headers(headers)
-						.body(null);
 			} else {
 				mensajeInvertido = mensajeService.invertirString(mensaje);
-				
-				return ResponseEntity
-						.status(HttpStatus.OK)
-						.headers(headers)
-						.body(mensajeInvertido);
+				status = HttpStatus.OK;
+				body = mensajeInvertido;
+
 			}
 		} catch(Exception e) {
-			
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.headers(headers)
-					.body(null);
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		
+		return ResponseEntity
+				.status(status)
+				.headers(headers)
+				.body(body);
 	}
 	
 }

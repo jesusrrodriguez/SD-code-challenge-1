@@ -14,20 +14,18 @@ import com.bootc.service.MensajeService;
 @Service
 public class MensajeServiceImpl implements MensajeService{
 
-	private String todosLosSignos = "!¡¿?.";
-	private String[] todosLosSignosArray = {"!", "¡", "¿", "?", "."};
-	
+	private final String todosLosSignos = "!¡¿?.";
+
 	private Map<String, String> tieneSignoPuntuacion(String str, int index) {
 		
-		Map<String, String> map = null;
+		Map<String, String> informacionSignos = null;
 		
 		if(StringUtils.containsAny(str, todosLosSignos)) {
-			map = new HashMap<String, String>();
-			
-			map = addSignos(map, str);
+			informacionSignos = addSignos(new HashMap<String, String>(), str);
+
 		}
 		
-		return map;
+		return informacionSignos;
 	}
 
 	private Map<String, String> addSignos(Map<String, String> map, String str) {
@@ -46,58 +44,62 @@ public class MensajeServiceImpl implements MensajeService{
 	}
 	
 	private String getSignosIzquierdaString(String str) {
-		str = RegExUtils.removePattern(str, "[\\?¿!¡\\.]+$");		
-		String signos = RegExUtils.removePattern(str, "[^\\?¿!¡\\.]+");
-		
-		return signos;
+		String strSinSignosALaDerecha = RegExUtils.removePattern(str, "[\\?¿!¡\\.]+$");
+
+		return RegExUtils.removePattern(strSinSignosALaDerecha, "[^\\?¿!¡\\.]+");
 	}
 	
 	private String getSignosDerechaString(String str) {
-		str = RegExUtils.removePattern(str, "^[\\?¿!¡\\.]+");		
-		String signos = RegExUtils.removePattern(str, "[^\\?¿!¡\\.]+");
-		
-		return signos;
+		String strSinSignosALaIzquierda = RegExUtils.removePattern(str, "^[\\?¿!¡\\.]+");
+
+		return RegExUtils.removePattern(strSinSignosALaIzquierda, "[^\\?¿!¡\\.]+");
+	}
+
+	private String setSignos(List<Map<String, String>> signos, int index, String strACambiar) {
+		if(signos.size()-1 >= index) {
+			if(signos.get(index) != null) {
+				strACambiar = StringUtils.prependIfMissing(strACambiar, signos.get(index).get("signosIzq"));
+				strACambiar = StringUtils.appendIfMissing(strACambiar, signos.get(index).get("signosDer"));
+			}
+		}
+
+		return strACambiar;
 	}
 
 	@Override
 	public String invertirString(String string) {
 		
 		List<Map<String, String>> signos = new ArrayList<>();
-		Map<String, String> map;
+		Map<String, String> informacionSignos;
 		
 		String[] stringArray = string.split(" ");
 		
 		for (int i = 0; i < stringArray.length; i++) {
 
-			map = tieneSignoPuntuacion(stringArray[i], i);
+			informacionSignos = tieneSignoPuntuacion(stringArray[i], i);
 			
-			if(map != null) {
+			if(informacionSignos != null) {
 				stringArray[i] = RegExUtils.removePattern(stringArray[i], "[\\?¿!¡\\.]*");
 				
 				while(signos.size() < i) {
 					signos.add(null);
 				}
 				
-				signos.add(i, map);
+				signos.add(i, informacionSignos);
 			}
 		}
 		
-		String[] aux = new String[stringArray.length];
+		String[] arrayInvertido = new String[stringArray.length];
 		
 		int j = stringArray.length -1;
 		for(int i = 0; i < stringArray.length; i++) {
-			aux[j] = stringArray[i];
-			
-			if(signos.size()-1 >= j) {
-				if(signos.get(j) != null) {
-					aux[j] = StringUtils.prependIfMissing(aux[j], signos.get(j).get("signosIzq"));
-					aux[j] = StringUtils.appendIfMissing(aux[j], signos.get(j).get("signosDer"));
-				}	
-			}
+			arrayInvertido[j] = stringArray[i];
+
+			arrayInvertido[j] = setSignos(signos, j, arrayInvertido[j]);
 			
 			j--;
 		} 
 		
-		return StringUtils.join(aux, " ");
+		return StringUtils.join(arrayInvertido, " ");
 	}
 }

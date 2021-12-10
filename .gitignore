@@ -1,3 +1,11 @@
+.metadata
+.mvn
+.settings
+.project
+
+target/classes/META-INF
+
+
 # Compiled class file
 *.class
 
