@@ -15,10 +15,9 @@ public class MensajeServiceImplTest {
 	MensajeService mensajeService;
 	
 	private String mensaje;
-	private char signo;
 	
     @Test
-	void invertirStringSinSignosTest() {
+	void invertirStringSinSignosTest() throws Exception {
 		mensaje = "Hello world";
 		String mensajeInvertido = mensajeService.invertirString(mensaje);
 		
@@ -26,7 +25,7 @@ public class MensajeServiceImplTest {
 	}
 	
     @Test
-	void invertirStringConUnSignoTest() {
+	void invertirStringConUnSignoTest() throws Exception {
 		mensaje = "Hello world!";
 		String mensajeInvertido = mensajeService.invertirString(mensaje);
 		
@@ -34,7 +33,7 @@ public class MensajeServiceImplTest {
 	}
     
     @Test
-	void invertirStringConDosSignosTest() {
+	void invertirStringConDosSignosTest() throws Exception {
 		mensaje = "¡Hola mundo!";
 		String mensajeInvertido = mensajeService.invertirString(mensaje);
 		
@@ -42,10 +41,34 @@ public class MensajeServiceImplTest {
 	}
     
     @Test
-	void invertirStringConTresSignosTest() {
+	void invertirStringConTresSignosTest() throws Exception {
 		mensaje = "Hace mucho tiempo... En un lugar... ¿¡Lejano!?";
 		String mensajeInvertido = mensajeService.invertirString(mensaje);
 		
 		assertEquals("Lejano lugar un... En tiempo mucho... ¿¡Hace!?", mensajeInvertido, "Son iguales");
+	}
+    
+    @Test
+	void invertirStringConUnaPalabra() throws Exception {
+		mensaje = "Hello";
+		String mensajeInvertido = mensajeService.invertirString(mensaje);
+		
+		assertEquals("Hello", mensajeInvertido, "Son iguales");
+	}
+    
+    @Test
+	void invertirStringConDosPalabras() throws Exception {
+		mensaje = "Hello! World";
+		String mensajeInvertido = mensajeService.invertirString(mensaje);
+		
+		assertEquals("World! Hello", mensajeInvertido, "Son iguales");
+	}
+    
+    @Test
+	void invertirStringConTresPalabras() throws Exception {
+		mensaje = "Hola precioso... ¿Mundo?";
+		String mensajeInvertido = mensajeService.invertirString(mensaje);
+		
+		assertEquals("Mundo precioso... ¿Hola?", mensajeInvertido, "Son iguales");
 	}
 }

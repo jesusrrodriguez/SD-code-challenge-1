@@ -16,7 +16,7 @@ public class MensajeServiceImpl implements MensajeService{
 
 	private final String todosLosSignos = "!¡¿?.";
 
-	private Map<String, String> tieneSignoPuntuacion(String str, int index) {
+	private Map<String, String> tieneSignoPuntuacion(String str) {
 		
 		Map<String, String> informacionSignos = null;
 		
@@ -33,12 +33,8 @@ public class MensajeServiceImpl implements MensajeService{
 		String izquierda = getSignosIzquierdaString(str);
 		String derecha = getSignosDerechaString(str);
 					
-		if(!izquierda.isBlank() || !izquierda.isEmpty()) {
-			map.put("signosIzq", izquierda);
-		}
-		if (!derecha.isBlank() || !derecha.isEmpty()) {
-			map.put("signosDer", derecha);
-		}
+		map.put("signosIzq", izquierda);
+		map.put("signosDer", derecha);
 		
 		return map;
 	}
@@ -55,19 +51,18 @@ public class MensajeServiceImpl implements MensajeService{
 		return RegExUtils.removePattern(strSinSignosALaIzquierda, "[^\\?¿!¡\\.]+");
 	}
 
-	private String setSignos(List<Map<String, String>> signos, int index, String strACambiar) {
-		if(signos.size()-1 >= index) {
-			if(signos.get(index) != null) {
-				strACambiar = StringUtils.prependIfMissing(strACambiar, signos.get(index).get("signosIzq"));
-				strACambiar = StringUtils.appendIfMissing(strACambiar, signos.get(index).get("signosDer"));
-			}
+	private String setSignosString(List<Map<String, String>> signos, int index, String strACambiar) {
+		
+		if(signos.size()-1 >= index && signos.get(index) != null) {
+			strACambiar = StringUtils.prependIfMissing(strACambiar, signos.get(index).get("signosIzq"));
+			strACambiar = StringUtils.appendIfMissing(strACambiar, signos.get(index).get("signosDer"));
 		}
 
 		return strACambiar;
 	}
 
 	@Override
-	public String invertirString(String string) {
+	public String invertirString(String string) throws Exception {
 		
 		List<Map<String, String>> signos = new ArrayList<>();
 		Map<String, String> informacionSignos;
@@ -76,7 +71,7 @@ public class MensajeServiceImpl implements MensajeService{
 		
 		for (int i = 0; i < stringArray.length; i++) {
 
-			informacionSignos = tieneSignoPuntuacion(stringArray[i], i);
+			informacionSignos = tieneSignoPuntuacion(stringArray[i]);
 			
 			if(informacionSignos != null) {
 				stringArray[i] = RegExUtils.removePattern(stringArray[i], "[\\?¿!¡\\.]*");
@@ -95,7 +90,7 @@ public class MensajeServiceImpl implements MensajeService{
 		for(int i = 0; i < stringArray.length; i++) {
 			arrayInvertido[j] = stringArray[i];
 
-			arrayInvertido[j] = setSignos(signos, j, arrayInvertido[j]);
+			arrayInvertido[j] = setSignosString(signos, j, arrayInvertido[j]);
 			
 			j--;
 		} 
