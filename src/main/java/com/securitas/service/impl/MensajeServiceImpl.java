@@ -7,7 +7,7 @@ import com.securitas.service.MensajeService;
 @Service
 public class MensajeServiceImpl implements MensajeService{
 	
-	final String signosPuntuacion = "!¡?¿.;";
+	private static final String signosPuntuacion = "!¡?¿.;";
 	
 	@Override
 	public String inversorPalabras(String mensaje) throws Exception{
