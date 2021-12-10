@@ -2,7 +2,6 @@
 *.iml
 *.ipr
 *.iws
-*.jar
 *.sw?
 *~
 .#*
@@ -19,6 +18,7 @@
 .settings
 .springBeans
 .vscode
+.mvn
 /code
 MANIFEST.MF
 _site/
